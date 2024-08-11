@@ -23,6 +23,8 @@ class CategoriesController extends Controller
 
     public function index(Request $request)
     {
+
+       $post=Post::with('dactor.reviwes');
         // $request=request();
        //select a.*form 
        //b.name as parent_name categories as a
