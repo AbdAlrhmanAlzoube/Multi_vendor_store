@@ -10,6 +10,9 @@ use App\Http\Requests\CategoryRequest;
 use Exception;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\View;
+
+use function Laravel\Prompts\select;
 
 class CategoriesController extends Controller
 {
@@ -23,26 +26,36 @@ class CategoriesController extends Controller
 
     public function index(Request $request)
     {
-
-       $post=Post::with('dactor.reviwes');
-        // $request=request();
-       //select a.*form 
-       //b.name as parent_name categories as a
-       //LEFT JONE CATEGORIES  b on b.id=a.parent_id
-
-
-        $categories = Category::leftjoin('categories as parent','parent.id','=','categories.parent_id')
-        ->select([
-            'categories.*',
-            'parent.name as parent_name'
-        ])
-        ->Filter($request->query())
-        ->orderby('name','asc')
-       // ->withTrashed()  //بترجع مع البيانات المحذوفة
-        // ->onlyTrashed()   
-        ->paginate();                                   //latest() he scope use sorting 
-       
+        $categories = Category::with('parent')
+            ->withCount([
+                'products' => function ($query) {
+                    $query->whereStatus('active');
+                }
+            ])
+            ->Filter($request->query())
+            ->latest()
+            ->paginate();
         return view('dashboard.categories.index', compact('categories'));
+
+        // $request=request();
+        //select a.*form 
+        //b.name as parent_name categories as a
+        //LEFT JONE CATEGORIES  b on b.id=a.parent_id
+        //latest() he scope use sorting 
+
+
+        // leftjoin('categories as parent','parent.id','=','categories.parent_id')
+        // ->select([
+        //     'categories.*',
+        //     'parent.name as parent_name'
+        // ])
+        //->select('categories.*')
+        //->selectRaw('(SELECT COUNT(*) FROM products WHERE products.category_id = categories.id) as product_count')
+
+        // ->orderby('name','asc')
+        // ->withTrashed()  //بترجع مع البيانات المحذوفة
+        // ->onlyTrashed()   
+
     }
 
     /**
@@ -62,22 +75,22 @@ class CategoriesController extends Controller
     {
         // Merge slug into the request data
         $request->merge(['slug' => Str::slug($request->post('name'))]);
-       
+
         $data = $request->except('image');
-        
+
 
         $data['image'] = $this->uplodeImage($request);
         $category = Category::create($data);
         return redirect()->route('dashboard.categories.index')->with('success', 'Category created successfully.');
     }
-   
+
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Category $category)
     {
-        //
+        return view('dashboard.categories.show', compact('category'));
     }
 
     /**
@@ -162,24 +175,22 @@ class CategoriesController extends Controller
 
     public function trash()
     {
-       $categories=Category::onlyTrashed()->paginate();
-       return view('dashboard.categories.trash', compact('categories')); 
+        $categories = Category::onlyTrashed()->paginate();
+        return view('dashboard.categories.trash', compact('categories'));
     }
 
-    public function restore(Request $request,$id)
+    public function restore(Request $request, $id)
     {
-        $category=Category::onlyTrashed()->findOrFail($id);
+        $category = Category::onlyTrashed()->findOrFail($id);
         $category->restore();
 
-        return to_route('dashboard.categories.index')->with('succes','Category Restored!');
-
+        return to_route('dashboard.categories.index')->with('succes', 'Category Restored!');
     }
     public function forceDelete($id)
     {
-        $category=Category::onlyTrashed()->findOrFail($id);
+        $category = Category::onlyTrashed()->findOrFail($id);
         $category->forceDelete();
 
-        return to_route('dashboard.categories.trash')->with('succes','Category deleted forever!');
-
+        return to_route('dashboard.categories.trash')->with('succes', 'Category deleted forever!');
     }
 }

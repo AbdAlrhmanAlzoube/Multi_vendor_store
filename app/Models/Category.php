@@ -23,12 +23,21 @@ class Category extends Model
         'parent_id'
     ];
 
-    // public function parent() 
-    // {
-    //     return $this->belongsTo(Category::class, 'parent_id');
-    // }
-    // قي حال ما بدي اشتخدم liftjoin في الا index بعمل علاقى وهنيك بجيبها من with
+    public function parent() 
+    {
+        return $this->belongsTo(Category::class, 'parent_id')
+        ->withDefault([
+            'name'=>'-'
+        ]);
+    }
+   /// قي حال ما بدي اشتخدم liftjoin في الا index بعمل علاقى وهنيك بجيبها من with
+    //category=>manyproduct
+    //product=>onecategory
 
+    public function products()
+    {
+        return $this->hasMany(Product::class,'category_id','id');
+    }
 
     public function scopeFilter(Builder $builder, $filters)
     {

@@ -3,6 +3,7 @@
 use Illuminate\support\Facades\Route;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\CategoriesController;
+use App\Http\Controllers\dashboard\ProductController;
 
 Route::group([
     //'key'=>'الخاصية'
@@ -21,5 +22,6 @@ function()
     Route::delete('/categories/{category}/force-delete',[CategoriesController::class, 'forceDelete'])->name('categories.force-delete');
     
     Route::resource('/categories',CategoriesController::class);
+    Route::resource('/products',ProductController::class);
 });
 

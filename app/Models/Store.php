@@ -9,4 +9,8 @@ class Store extends Model
 {
     use HasFactory; 
     
+    public function products()
+    {
+        return $this->hasMany(Product::class,'store_id','id');
+    }
 }
