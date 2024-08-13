@@ -1,9 +1,10 @@
 <?php
 
 use Illuminate\support\Facades\Route;
+use App\Http\Controllers\Dashboard\ProductController;
+use App\Http\Controllers\Dashboard\ProfileController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\CategoriesController;
-use App\Http\Controllers\dashboard\ProductController;
 
 Route::group([
     //'key'=>'الخاصية'
@@ -15,6 +16,9 @@ Route::group([
 function()
 {
 
+    Route::get('profile',[ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('profile',[ProfileController::class, 'update'])->name('profile.update');
+    
     Route::get('/', [DashboardController::class,'index']);
 
     Route::get('/categories/trash',[CategoriesController::class, 'trash'])->name('categories.trash');

@@ -49,17 +49,21 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+      $product=Product::findorfile($id);
+      return view('dashboard.products.edit',compact('product'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request,Product $product)
     {
-        //
+        
+       $product->update($request->except('tags'));
+       return redirect()->route('dashboard.products.index')
+       ->with('success','Product Updated!');
     }
 
     /**

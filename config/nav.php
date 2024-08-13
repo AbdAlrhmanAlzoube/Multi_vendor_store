@@ -19,7 +19,7 @@ return
 
     [
         'icon'=>'far fa-circle nav-icon',
-        'route'=>'dashboard.',
+        'route'=>'dashboard.products.index',
         'title'=>'Product',
         'active'=>'dashboard.products.*'
 
