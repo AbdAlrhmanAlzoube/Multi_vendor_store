@@ -23,8 +23,8 @@ return new class extends Migration
             $table->decimal('compare_price', 10, 2)->default(0);
             $table->json('option')->nullable();
             $table->float('rating')->default(0);
-            $table->float('featured')->default(0); // تصحيح الاسم
-            $table->enum('status', ['active', 'draft', 'archived'])->default('active'); // تصحيح الاسم
+            $table->float('featured')->default(0);
+            $table->enum('status', ['active', 'draft', 'archived'])->default('active'); 
             $table->timestamps();
             $table->softDeletes();
         });

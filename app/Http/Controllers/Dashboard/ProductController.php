@@ -66,7 +66,7 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, Product $product)
     {
-
+        $request->validate();
         $product->update($request->except('tags'));
         $tags = explode(',', $request->post('tags'));
         // dd($tags);
