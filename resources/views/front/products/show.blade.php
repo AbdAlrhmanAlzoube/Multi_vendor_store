@@ -45,10 +45,12 @@
                         <div class="product-info">
                             <h2 class="title">{{ $product->name }}</h2>
                             <p class="category"><i class="lni lni-tag"></i> Drones:<a href="javascript:void(0)">{{ $product->category->name }}</a></p>
-                            <h3 class="price">{{App\Helpers\Currency::format ($product->price,'USD') }}
-                                @if ({App\Helpers\Currency::format($product->compare_price))
-                                <span>${{ $product->compare_price }}</span></h3>
-                            @endif
+                            <h3 class="price">
+                                {{ App\Helpers\Currency::format($product->price, 'USD') }}
+                                @if($product->compare_price)
+                                    <span>{{ App\Helpers\Currency::format($product->compare_price, 'USD') }}</span>
+                                @endif
+                            </h3>
                             <p class="info-text">{{ $product->description }}</p>
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-12">

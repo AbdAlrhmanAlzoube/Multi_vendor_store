@@ -344,7 +344,9 @@
     <!-- End Header Area -->
 
     <!-- Start Breadcrumbs -->
+    @isset($breadcrumb)
     {{ $breadcrumb }}
+    @endisset
     <!-- End Breadcrumbs -->
 
     <!-- Start Account Login Area -->

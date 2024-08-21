@@ -1,18 +1,17 @@
 <?php
-
+use App\Providers\RouteServiceProvider;
 use Illuminate\support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ProfileController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\CategoriesController;
-
-
+use App\Http\Middleware\CheckUserType;
 
 Route::group([
     //'key'=>'الخاصية'
     'prefix'=>'dashboard',
-    'middleware'=>'auth',
+    'middleware'=>['auth','auth_type:admin,super-admin'],
     'as'=>'dashboard.'
 ],
 

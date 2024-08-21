@@ -12,6 +12,11 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('products/',[ProductController::class, 'index'])->name('products.index');
 Route::get('products/{product:slug}',[ProductController::class, 'show'])->name('products.show');
 
+Route::post('paypal/webhook',function()
+{
+    echo 'success';
+});
+
 // Route::view('/layout', 'index');
 
 

@@ -18,8 +18,10 @@ class UserSeeder extends Seeder
         User::create([
             'name'=>'Abdalrhman Alzobi',
             'password'=>Hash::make('password'),  //google 
-            'email'=>'abd@gmail.com',
+            'email'=>'abd@mail.com',
             'phone_number'=>'0992938066',
+            'type'=> 'super-admin'
+
 
         ]); 
         // ممككن اواجه اواجه جدول بدون موديل كيف بدي عالح هالشي؟؟
@@ -27,8 +29,18 @@ class UserSeeder extends Seeder
        DB::table('users')->insert([
         'name'=>'abd',
         'password'=>Hash::make('password'),  //google 
-        'email'=>'abdalrhman@gmail.com',
+        'email'=>'abdalrhman@mail.com',
         'phone_number'=>'099293806',
+        'type'=> 'admin'
+
+
+       ]);
+       DB::table('users')->insert([
+        'name'=>'super',
+        'password'=>Hash::make('password'),  //google 
+        'email'=>'super-admin@mail.com',
+        'phone_number'=>'0992938062',
+        'type'=> 'user'
 
        ]);
 

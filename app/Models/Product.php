@@ -96,6 +96,6 @@ class Product extends Model
         if (!$this->compare_price) {
             return 0;
         }
-        return  round(100 - (100 * $this->price / $this->compare_price),1); //number_format
+        return  round(100 - (100 * $this->price / $this->compare_price),1); //method number_format
     }
 }
