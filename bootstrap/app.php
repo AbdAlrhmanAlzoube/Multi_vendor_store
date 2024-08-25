@@ -15,8 +15,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'auth_type' => CheckUserType::class,
-            'update_last_active' => UpdateUserLastActiveAt::class,
-
+        ]);
+        $middleware->appendToGroup('web',[
+            UpdateUserLastActiveAt::class, 
         ]);
         $middleware->validateCsrfTokens([
             'paypal/webhook',

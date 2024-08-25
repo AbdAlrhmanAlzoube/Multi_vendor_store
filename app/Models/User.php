@@ -24,6 +24,7 @@ class User extends Authenticatable
         'email',
         'password',
         'phone_number',
+        'last_active_at'
         
     ];
 
@@ -54,5 +55,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class,'user_id','id')
         ->withDefault();
+    }
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
     }
 }
