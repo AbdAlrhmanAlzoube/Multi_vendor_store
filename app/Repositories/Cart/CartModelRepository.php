@@ -16,6 +16,7 @@ class CartModelRepository implements CartRepository
 
     public function get():Collection
     {
+        dd('aa');
         return Cart::with('product')
             ->where('cookie_id', '=', $this->getCookieId())
             ->get();
