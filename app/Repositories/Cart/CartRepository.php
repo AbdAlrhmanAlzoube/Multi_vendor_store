@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 
 interface CartRepository
 {
-    public function get():Collection;
+    public function get():Collection|array|null;
 
     public function add(Product $product,$quantity);
 

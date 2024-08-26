@@ -10,7 +10,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        return 'THis is all products';
+        // return view('produc')
     }
     public function show(Product $product)
     {

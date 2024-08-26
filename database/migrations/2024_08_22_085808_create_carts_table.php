@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete();
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
             $table->unsignedSmallInteger('quantity')->default(1);
-            $table->json('options')->comment('Additional options such as color, size, etc.');
+            $table->json('options')->default(json_encode([]))->change()->nullable();
             $table->timestamps();
         });
     }

@@ -22,10 +22,10 @@ class Cart extends Model
 
     protected static function boot()
     {
-        static::observe(CartObserver::class);
-          
+            parent::boot();
+          static::observe(CartObserver::class);
         // parent::boot();
-        // Automatically generate UUIDs when creating new Cart entries
+        // // Automatically generate UUIDs when creating new Cart entries
         // static::creating(function ($model) {
         //     if (empty($model->id)) {
         //         $model->id = Str::uuid();
@@ -47,4 +47,12 @@ class Cart extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    // public function total(): float
+    // {
+    //     return Cart::where('cookie_id', $this->getCookieId())
+    //         ->join('products', 'products.id', '=', 'carts.product_id')
+    //         ->selectRaw('SUM(products.price * carts.quantity) as total')
+    //         ->value('total') ?: 0.0;
+    // }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Repositories\Cart;
 
-use Carbon\Carbon;
 use App\Models\Cart;
+use Carbon\Carbon;
 use App\Models\Product;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
@@ -14,24 +14,32 @@ use App\Repositories\Cart\CartRepository;
 class CartModelRepository implements CartRepository
 {
 
-    public function get():Collection
+    public function get():Collection|array|null
     {
-        dd('aa');
-        return Cart::with('product')
+        $cart = Cart::with('product')
             ->where('cookie_id', '=', $this->getCookieId())
             ->get();
+
+            return $cart;
     }
 
-    // أضف منتجًا إلى السلة
     public function add(Product $product, $quantity = 1)
     {
-        return Cart::create([
-            'cookie_id' => $this->getCookieId(),
-            'user_id' => Auth::id(),
-            'product_id' => $product->id,
-            'quantity' => $quantity,
-
-        ]);
+        $items= Cart::where('product_id', '=', $product->id)
+        ->where('cookie_id', '=', $this->getCookieId())
+        ->first();
+        if(!$items){
+            return Cart::create([
+                'cookie_id' => $this->getCookieId(),
+                'user_id' => Auth::id(),
+                'product_id' => $product->id,
+                'quantity' => $quantity,
+                'options' => json_encode([]),
+    
+            ]);
+        }
+        return $items->increment('quantity',$quantity);
+       
     }
 
     public function update(Product $product, $quantity)
@@ -58,7 +66,7 @@ class CartModelRepository implements CartRepository
 
     public function total(): float
     {
-        return Cart::where('cookie_id', $this->getCookieId())
+        return (float) Cart::where('cookie_id', $this->getCookieId()) //casteing  =>return null
             ->join('products', 'products.id', '=', 'carts.product_id')
             ->selectRaw('SUM(products.price * carts.quantity) as total')
             ->value('total') ?: 0.0;

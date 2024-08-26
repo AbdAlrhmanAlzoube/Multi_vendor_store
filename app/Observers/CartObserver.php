@@ -13,6 +13,7 @@ class CartObserver
     public function creating(Cart $cart): void
     {
         $cart->id =Str::uuid();
+        info('Cart UUID generated: ' . $cart->id);
     }
 
     /**
