@@ -7,6 +7,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
+use App\Repositories\Cart\CartModelRepository;
 use App\Repositories\Cart\CartRepository;
 use Illuminate\Support\Collection;
 
@@ -16,20 +17,20 @@ class CartController extends Controller
     /**
      * Display a listing of the resource.
      */
-    // public function index(CartModelRepository $cart)
-    // {
-    //     // dd($cart);
-    //     // $repository = App::make('cart');
-    //     //   $items = $cart->get();
-    //     // dd($cart);
-    //     $items = $cart->get();
+    public function index(CartModelRepository $cart)
+    {
+        // dd($cart);
+        // $repository = App::make('cart');
+        //   $items = $cart->get();
+        // dd($cart);
+        $items = $cart->get();
 
-    //     // تمرير البيانات إلى الفيو
-    //     return view('front.cart', [
-    //         'cart' => $items,
-    //     ]);
+        // تمرير البيانات إلى الفيو
+        return view('front.cart', [
+            'cart' => $items,
+        ]);
           
-    // }
+    }
 
     /**
      * Store a newly created resource in storage.
