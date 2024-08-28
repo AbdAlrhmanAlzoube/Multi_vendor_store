@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-use App\Observers\CartObserver;
 use Illuminate\Support\Str;
+use App\Observers\CartObserver;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Cart extends Model
@@ -22,8 +24,12 @@ class Cart extends Model
 
     protected static function boot()
     {
-            parent::boot();
+            parent::boot(); //=>BECOSE ERROR UNDIFINED ARRAY KEY
           static::observe(CartObserver::class);
+          static::addGlobalScope('cookie_id',function(Builder $builder)
+          {
+            $builder->where('cookie_id', '=', Cart::getCookieId());
+          });
         // parent::boot();
         // // Automatically generate UUIDs when creating new Cart entries
         // static::creating(function ($model) {
@@ -32,12 +38,22 @@ class Cart extends Model
         //     }
         // });
     }
+    protected static function getCookieId()
+    {
+        $cookie_id = Cookie::get('cart_id');
+        if (!$cookie_id) {
+            $cookie_id = Str::uuid();
+            // $cookieLifetime = config('session.cart_cookie_lifetime', 30); //;linkedin
+            Cookie::queue('cart_id', $cookie_id, 30 * 24 *60);
+        }
+        return $cookie_id;
+    }
 
     public function user()
     {
         return $this->belongsTo(User::class)->withDefault(
             [
-                'name'=>'Anonymous',
+                'name'=>'Anonymous', //بسبب انو يمكن ما يكون عامل تسجيل دخول
             ]
             );
     }
@@ -48,11 +64,4 @@ class Cart extends Model
         return $this->belongsTo(Product::class);
     }
 
-    // public function total(): float
-    // {
-    //     return Cart::where('cookie_id', $this->getCookieId())
-    //         ->join('products', 'products.id', '=', 'carts.product_id')
-    //         ->selectRaw('SUM(products.price * carts.quantity) as total')
-    //         ->value('total') ?: 0.0;
-    // }
 }

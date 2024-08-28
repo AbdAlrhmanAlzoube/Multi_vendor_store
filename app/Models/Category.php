@@ -45,7 +45,6 @@ class Category extends Model
             $builder->where('categories.name', 'like', "%{$value}%");
         });
 
-        // تصفية بناءً على الحالة
         $builder->when($filters['status'] ?? null, function ($builder, $value) {
             $builder->where('categories.status', '=', $value);
         });
