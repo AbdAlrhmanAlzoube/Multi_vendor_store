@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class OrderItem extends Pivot //extends Model //لما اعملو Pivot لارفيل لحالها بتفتؤض اسم الجدول نفس اسم المودل بس بالمفرد لهيك بدي اعالج الموصوع
 {                              //من ميزاته كمان انو ما بحيط ال fillable لانو لحالو حاكطت guarded[]
     use HasFactory;
+    
+    public $timestamps=false; 
 
     protected $table='order_items';
 

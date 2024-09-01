@@ -73,4 +73,5 @@
 </table>
 {{ $categories->WithQueryString()->links() }}
 
+
 @endsection

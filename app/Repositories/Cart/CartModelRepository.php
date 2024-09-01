@@ -19,10 +19,13 @@ class CartModelRepository implements CartRepository
     public function __construct()
     {
         $this->items=collect([]);
+       
+
     }
 
     public function get(): Collection|array|null
     {
+        
         if(!$this->items->count())
         {
           return  $this->items=Cart::with('product')

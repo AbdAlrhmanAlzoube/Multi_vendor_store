@@ -34,7 +34,7 @@ class CategoriesController extends Controller
             ])
             ->Filter($request->query())
             ->latest()
-            ->paginate();
+            ->paginate(2);//defulte=>15
         return view('dashboard.categories.index', compact('categories'));
 
         // $request=request();

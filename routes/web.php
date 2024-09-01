@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Front\CartController;
+use App\Http\Controllers\Front\CheckOutController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\ProductController;
 
@@ -14,6 +15,11 @@ Route::get('products/',[ProductController::class, 'index'])->name('products.inde
 Route::get('products/{product:slug}',[ProductController::class, 'show'])->name('products.show');
 
 Route::resource('cart', CartController::class);
+
+Route::get('checkout',[CheckOutController::class,'create'])->name('checkout');
+Route::post('store-order',[CheckOutController::class, 'store'])->name('store-order');
+
+
 
 Route::post('paypal/webhook',function()
 {
