@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Events\CartCreated;
 use App\Listeners\DeductProductQuantity;
 use App\Listeners\EmptyCart;
+use App\Listeners\SendOrderCreatedNotifiaction;
 use Illuminate\Support\ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -17,7 +18,8 @@ class EventServiceProvider extends ServiceProvider
 
         CartCreated::class => [
             DeductProductQuantity::class,
-            EmptyCart::class,
+            SendOrderCreatedNotifiaction::class,
+            // EmptyCart::class,
         ]
 
 

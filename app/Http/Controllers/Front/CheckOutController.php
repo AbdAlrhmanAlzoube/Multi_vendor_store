@@ -64,7 +64,7 @@ class CheckOutController extends Controller
                 $order->addresses()->create($address);
             }
         }
-        $cart->empty();
+        // $cart->empty();
             DB::commit();
             // event('cart.created',$order,Auth::user()); //listener empitycart and quantity --
             event(new CartCreated($order));
@@ -72,7 +72,7 @@ class CheckOutController extends Controller
              DB::rollBack();
             throw $e;
         }
-        return to_route('home');
+        // return to_route('home');
        
     }
 }

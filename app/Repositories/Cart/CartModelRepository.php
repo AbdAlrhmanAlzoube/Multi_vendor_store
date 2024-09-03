@@ -13,7 +13,7 @@ use App\Repositories\Cart\CartRepository;
 
 class CartModelRepository implements CartRepository
 {
-
+        //OTP ONE TIME PASSWORD WHEN LOGIN SEND CODE FOR EMAIL
     protected $items;
 
     public function __construct()
