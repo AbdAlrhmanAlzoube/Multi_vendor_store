@@ -366,11 +366,11 @@
 
     <section class="checkout-wrapper section">
         <div class="container">
-        <form action="{{route('store-order') }}" method="post">
-
+        <form action="{{route('store-order') }}" method="POST">
+            @csrf
             <div class="row justify-content-center">
                
-                    @csrf
+                    
                 <div class="col-lg-8">
                     <div class="checkout-steps-form-style-1">
                         <ul id="accordionExample">
@@ -716,7 +716,7 @@
                                 </div>
                             </div>
                             <div class="price-table-btn button">
-                                <a href="javascript:void(0)" class="btn btn-alt">Checkout</a>
+                                <a href="{{ route('store-order') }}" class="btn btn-alt">Checkout</a>
                             </div>
                         </div>
                         <div class="checkout-sidebar-banner mt-30">
@@ -752,7 +752,7 @@
                                     <span>Get all the latest information, Sales and Offers.</span>
                                 </h4>
                                 <div class="newsletter-form-head">
-                                    <form action="#" method="get" target="_blank" class="newsletter-form">
+                                    <form action="#" method="POST" target="_blank" class="newsletter-form">
                                         <input name="EMAIL" placeholder="Email address here..." type="email">
                                         <div class="button">
                                             <button class="btn">Subscribe<span class="dir-part"></span></button>

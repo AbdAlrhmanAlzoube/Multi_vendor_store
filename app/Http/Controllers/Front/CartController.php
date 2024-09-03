@@ -47,6 +47,7 @@ class CartController extends Controller
         $request->validate([
             'product_id' => ['required', 'integer', 'exists:products,id'],
             'quantity' => ['nullable', 'int', 'min:1'],
+            // 'options'=>['nullable']
         ]);
 
         $product = Product::findOrFail($request->post('product_id'));

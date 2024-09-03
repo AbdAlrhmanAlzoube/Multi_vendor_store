@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\CartCreated;
 use App\Models\Cart;
 use App\Observers\CartObserver;
 use Illuminate\Pagination\Paginator;
@@ -33,7 +34,13 @@ class AppServiceProvider extends ServiceProvider
 
         Paginator::useBootstrapFour();
         // Paginator::defaultView('vendor.pagination.tailwind');
-        Blade::component('form.select', 'form.select');
+        // Blade::component('form.select', 'form.select');
+
+
+        // Event::listen(
+        //     CartCreated::class =>[ listenerName::class,]
+           
+        //);
 
     }
 }

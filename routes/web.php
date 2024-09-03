@@ -24,9 +24,7 @@ Route::post('store-order',[CheckOutController::class, 'store'])->name('store-ord
 Route::post('paypal/webhook',function()
 {
     echo 'success';
-});
-
-// Route::view('/layout', 'index');
+}); // Route::view('/layout', 'index');
 
 
 Route::middleware('auth')->group(function () {

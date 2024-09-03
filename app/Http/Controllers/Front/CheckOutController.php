@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\front;
 
+use App\Events\CartCreated;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
@@ -25,7 +26,7 @@ class CheckOutController extends Controller
         // }
         return view('front.checkout',[
             'cart'=>$cart,
-            'countries'=>$countries=Countries::getNames(),
+            'countries'=>Countries::getNames(),
         ]);
     }
     public function store(Request $request,CartRepository $cart)
@@ -44,6 +45,7 @@ class CheckOutController extends Controller
                 'user_id'=>Auth::id(),
                 'payment_method'=>'cod',
             ]);
+
     
             foreach($cart_item as $item)
             {
@@ -64,8 +66,10 @@ class CheckOutController extends Controller
         }
         $cart->empty();
             DB::commit();
+            // event('cart.created',$order,Auth::user()); //listener empitycart and quantity --
+            event(new CartCreated($order));
         }catch(Throwable $e){
-            //  DB::rollBack();
+             DB::rollBack();
             throw $e;
         }
         return to_route('home');

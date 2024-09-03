@@ -19,7 +19,7 @@ class Cart extends Model
         'user_id',
         'product_id',
         'quantity',
-        'options',
+        // 'options',
     ];
 
     protected static function boot()
