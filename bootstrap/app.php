@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\CheckUserType;
+use App\Http\Middleware\MarkNotificationAsRead;
 use Illuminate\Foundation\Application;
 use App\Http\Middleware\UpdateUserLastActiveAt;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -18,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->appendToGroup('web',[
             UpdateUserLastActiveAt::class, 
+            MarkNotificationAsRead::class,
         ]);
         $middleware->validateCsrfTokens([
             'paypal/webhook',

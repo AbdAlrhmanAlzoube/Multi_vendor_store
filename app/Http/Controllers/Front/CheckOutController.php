@@ -72,7 +72,7 @@ class CheckOutController extends Controller
              DB::rollBack();
             throw $e;
         }
-        // return to_route('home');
+        return to_route('home');
        
     }
 }

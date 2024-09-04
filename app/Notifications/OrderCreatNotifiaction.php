@@ -29,7 +29,7 @@ class OrderCreatNotifiaction extends Notification
      */
     public function via(object $notifiable): array //objact user authintacit //بترجع طرق استلام الاشعارات 
     {   
-        return ['mail'];
+        return ['mail','database'];
         $channels=['database'];
 
         if($notifiable->notifiaction_preferences['order_created']['sms'] ?? false)
@@ -62,6 +62,17 @@ class OrderCreatNotifiaction extends Notification
                     ->action('View Order', url('/dashboard'))
                     ->line('Thank you for using our application!');
                     //view(''); 
+    }
+
+    public function toDatabase($notifiable)
+    {
+        $addr=$this->order->billingaddress;
+        return[
+            'body'=>"A New Order ({$this->order->number}) Created by {$addr->name} from {$addr->country_name}.",
+            'icon' => 'fas fa-file',
+            'url'=>'/dashboard',
+            'order_id'=>$this->order->id,
+        ];
     }
 
     /**
