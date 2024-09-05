@@ -78,7 +78,7 @@ class CartModelRepository implements CartRepository
     {
        return $this->get()->sum(function($item)
         {
-            return $item->quantity * $item->product->price;
+            return $item->quantity * ($item->product ? $item->product->price : 0);
         });
 
         // return (float) Cart::join('products', 'products.id', '=', 'carts.product_id')

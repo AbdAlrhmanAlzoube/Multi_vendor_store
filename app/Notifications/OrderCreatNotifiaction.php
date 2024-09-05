@@ -5,6 +5,7 @@ namespace App\Notifications;
 use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -29,7 +30,7 @@ class OrderCreatNotifiaction extends Notification
      */
     public function via(object $notifiable): array //objact user authintacit //بترجع طرق استلام الاشعارات 
     {   
-        return ['mail','database'];
+        return ['mail','database','broadcast'];
         $channels=['database'];
 
         if($notifiable->notifiaction_preferences['order_created']['sms'] ?? false)
@@ -61,6 +62,7 @@ class OrderCreatNotifiaction extends Notification
                     ->line("A New Order ({$this->order->number}) Created by {$addr->name} from {$addr->country_name}.")
                     ->action('View Order', url('/dashboard'))
                     ->line('Thank you for using our application!');
+
                     //view(''); 
     }
 
@@ -73,6 +75,16 @@ class OrderCreatNotifiaction extends Notification
             'url'=>'/dashboard',
             'order_id'=>$this->order->id,
         ];
+    }
+    public function toBroadcast($notifiable)  //3channel public/privite/prosis
+    {
+        $addr=$this->order->billingaddress;
+        return new BroadcastMessage([
+            'body'=>"A New Order ({$this->order->number}) Created by {$addr->name} from {$addr->country_name}.",
+            'icon' => 'fas fa-file',
+            'url'=>'/dashboard',
+            'order_id'=>$this->order->id,
+        ]);
     }
 
     /**

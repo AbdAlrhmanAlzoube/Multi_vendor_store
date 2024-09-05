@@ -37,14 +37,18 @@ class CheckOutController extends Controller
         // dd('abd');
 
         DB::beginTransaction();
+
         $items=$cart->get()->groupBy('product.store_id');
+        // dd($items);
         try{
             foreach($items as $store_id =>$cart_item){ //($items as $store_id => $cart_item
             $order=Order::create([
                 'store_id'=>$store_id,
                 'user_id'=>Auth::id(),
                 'payment_method'=>'cod',
+                
             ]);
+            // dd($order);
 
     
             foreach($cart_item as $item)
@@ -63,6 +67,7 @@ class CheckOutController extends Controller
                 $address['type']=$type;
                 $order->addresses()->create($address);
             }
+
         }
         // $cart->empty();
             DB::commit();

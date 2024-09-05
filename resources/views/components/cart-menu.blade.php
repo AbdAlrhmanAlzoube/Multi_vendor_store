@@ -11,6 +11,7 @@
         </div>ca
         <ul class="shopping-list">
             @foreach ($items as $item )
+            @if ($item->product)
             <li>
                 <a href="javascript:void(0)" class="remove" title="Remove this item"><i
                         class="lni lni-close"></i></a>
@@ -25,6 +26,12 @@
                     <p class="quantity">{{ $item->quantity }} <span class="amount">{{App\Helpers\Currency::format($item->product->price ) }}</span></p>
                 </div>
             </li> 
+            @else
+            <li>
+                <p>Product not available</p>
+            </li>
+            @endif
+           
             @endforeach
           
           

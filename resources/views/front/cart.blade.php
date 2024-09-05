@@ -42,36 +42,47 @@
                 @if($cart->isEmpty())
                     <p>Your cart is empty.</p>
                 @else
-                    @foreach ($cart as $item)
-                        <div class="cart-single-list" id="{{ $item->id }}">
-                            <div class="row align-items-center">
-                                <div class="col-lg-1 col-md-1 col-12">
-                                    <a href="{{ route('products.show', $item->product->slug) }}"><img src="{{ $item->product->image_url }}" alt="#"></a>
-                                </div>
-                                <div class="col-lg-4 col-md-3 col-12">
-                                    <h5 class="product-name"><a href="{{ route('products.show', $item->product->slug) }}">{{ $item->product->name }}</a></h5>
-                                    <p class="product-des">
-                                        <span><em>Type:</em> Mirrorless</span>
-                                        <span><em>Color:</em> Black</span>
-                                    </p>
-                                </div>
-                                <div class="col-lg-2 col-md-2 col-12">
-                                    <div class="count-input">
-                                        <input class="form-control item-quantity" data-id="{{ $item->id }}" value="{{ $item->quantity }}">
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-md-2 col-12">
-                                    <p>{{ App\Helpers\Currency::format($item->quantity * $item->product->price) }}</p>
-                                </div>
-                                <div class="col-lg-2 col-md-2 col-12">
-                                    <p>{{ App\Helpers\Currency::format(0) }}</p>
-                                </div>
-                                <div class="col-lg-1 col-md-2 col-12">
-                                    <a class="remove-item" data-id="{{ $item->id }}" href="javascript:void(0)"><i class="lni lni-close"></i></a>
+                @foreach ($cart as $item)
+                @if ($item->product)
+                    <div class="cart-single-list" id="{{ $item->id }}">
+                        <div class="row align-items-center">
+                            <div class="col-lg-1 col-md-1 col-12">
+                                <a href="{{ route('products.show', $item->product->slug) }}">
+                                    <img src="{{ $item->product->image_url }}" alt="{{ $item->product->name }}">
+                                </a>
+                            </div>
+                            <div class="col-lg-4 col-md-3 col-12">
+                                <h5 class="product-name">
+                                    <a href="{{ route('products.show', $item->product->slug) }}">{{ $item->product->name }}</a>
+                                </h5>
+                                <p class="product-des">
+                                    <span><em>Type:</em> Mirrorless</span>
+                                    <span><em>Color:</em> Black</span>
+                                </p>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-12">
+                                <div class="count-input">
+                                    <input class="form-control item-quantity" data-id="{{ $item->id }}" value="{{ $item->quantity }}">
                                 </div>
                             </div>
+                            <div class="col-lg-2 col-md-2 col-12">
+                                <p>{{ App\Helpers\Currency::format($item->quantity * $item->product->price) }}</p>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-12">
+                                <p>{{ App\Helpers\Currency::format(0) }}</p>
+                            </div>
+                            <div class="col-lg-1 col-md-2 col-12">
+                                <a class="remove-item" data-id="{{ $item->id }}" href="javascript:void(0)">
+                                    <i class="lni lni-close"></i>
+                                </a>
+                            </div>
                         </div>
-                    @endforeach
+                    </div>
+                @else
+                    <p>Product not found for item {{ $item->id }}.</p>
+                @endif
+            @endforeach
+            
                 @endif
             </div>
 
@@ -119,7 +130,7 @@
         const csrf_token= "{{ csrf_token() }}";
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/d3js/7.9.0/d3.min.js"></script>
-    <script src="{{ asset('assets/js/cart.js') }}"></script>
+    {{-- <script src="{{ asset('build/assets/cart-B59eHFjU.js') }}"></script> --}}
     @endpush
-    @vite('js/cart.js')
+    @vite('resources/js/cart.js')
 </x-front-layout>
