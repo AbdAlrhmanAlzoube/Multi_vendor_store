@@ -1,22 +1,20 @@
-
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
 
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>{{ $title }}</title>
+    <title>Login - ShopGrids Bootstrap 5 eCommerce HTML Template.</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/images/favicon.svg')}}" />
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.svg" />
 
     <!-- ========================= CSS here ========================= -->
-    <link rel="stylesheet" href="{{asset('assets/css/bootstrap.min.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/css/LineIcons.3.0.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/css/tiny-slider.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/css/glightbox.min.css')}}" />
-    <link rel="stylesheet" href="{{asset('assets/css/main.css')}}" />
-    {{-- @stack('styles') --}}
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/LineIcons.3.0.css" />
+    <link rel="stylesheet" href="assets/css/tiny-slider.css" />
+    <link rel="stylesheet" href="assets/css/glightbox.min.css" />
+    <link rel="stylesheet" href="assets/css/main.css" />
 
 </head>
 
@@ -88,39 +86,18 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-12">
                         <div class="top-end">
-                            @auth 
-                            
                             <div class="user">
-                                <i class="lni lni-user"></i>
-                                {{ Auth::user()->name }}
-                            </div>
-
-                            <ul class="user-login">
-                                <li>
-                                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout').submit()">Sign Out</a>
-                                </li>
-                                <form action="{{ route('logout') }}" id="logout" method="post" style="display:none" >
-                                    @csrf 
-                                </form>
-                            </ul>
-
-
-                             @else
-                             <div class="user">
                                 <i class="lni lni-user"></i>
                                 Hello
                             </div>
                             <ul class="user-login">
                                 <li>
-                                    <a href="{{ route('login') }}">Sign In</a>
+                                    <a href="login.html">Sign In</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('register') }}">Register</a>
+                                    <a href="register.html">Register</a>
                                 </li>
                             </ul>
-
-                            @endauth
-                           
                         </div>
                     </div>
                 </div>
@@ -134,7 +111,7 @@
                     <div class="col-lg-3 col-md-3 col-7">
                         <!-- Start Header Logo -->
                         <a class="navbar-brand" href="index.html">
-                            <img src="{{asset('assets/images/logo/logo.svg')}}" alt="Logo">
+                            <img src="assets/images/logo/logo.svg" alt="Logo">
                         </a>
                         <!-- End Header Logo -->
                     </div>
@@ -181,7 +158,57 @@
                                         <span class="total-items">0</span>
                                     </a>
                                 </div>
-                               <x-cart-menu />
+                                <div class="cart-items">
+                                    <a href="javascript:void(0)" class="main-btn">
+                                        <i class="lni lni-cart"></i>
+                                        <span class="total-items">2</span>
+                                    </a>
+                                    <!-- Shopping Item -->
+                                    <div class="shopping-item">
+                                        <div class="dropdown-cart-header">
+                                            <span>2 Items</span>
+                                            <a href="cart.html">View Cart</a>
+                                        </div>
+                                        <ul class="shopping-list">
+                                            <li>
+                                                <a href="javascript:void(0)" class="remove" title="Remove this item"><i
+                                                        class="lni lni-close"></i></a>
+                                                <div class="cart-img-head">
+                                                    <a class="cart-img" href="product-details.html"><img
+                                                            src="assets/images/header/cart-items/item1.jpg" alt="#"></a>
+                                                </div>
+
+                                                <div class="content">
+                                                    <h4><a href="product-details.html">
+                                                            Apple Watch Series 6</a></h4>
+                                                    <p class="quantity">1x - <span class="amount">$99.00</span></p>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0)" class="remove" title="Remove this item"><i
+                                                        class="lni lni-close"></i></a>
+                                                <div class="cart-img-head">
+                                                    <a class="cart-img" href="product-details.html"><img
+                                                            src="assets/images/header/cart-items/item2.jpg" alt="#"></a>
+                                                </div>
+                                                <div class="content">
+                                                    <h4><a href="product-details.html">Wi-Fi Smart Camera</a></h4>
+                                                    <p class="quantity">1x - <span class="amount">$35.00</span></p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <div class="bottom">
+                                            <div class="total">
+                                                <span>Total</span>
+                                                <span class="total-amount">$134.00</span>
+                                            </div>
+                                            <div class="button">
+                                                <a href="checkout.html" class="btn animate">Checkout</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/ End Shopping Item -->
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -315,13 +342,78 @@
     <!-- End Header Area -->
 
     <!-- Start Breadcrumbs -->
-    @isset($breadcrumb)
-    {{ $breadcrumb }}
-    @endisset
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6 col-12">
+                    <div class="breadcrumbs-content">
+                        <h1 class="page-title">Login</h1>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    <ul class="breadcrumb-nav">
+                        <li><a href="index.html"><i class="lni lni-home"></i> Home</a></li>
+                        <li>Login</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- End Breadcrumbs -->
 
     <!-- Start Account Login Area -->
-   {{ $slot }}
+    <div class="account-login section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
+                    <form class="card login-form" method="post">
+                        <div class="card-body">
+                            <div class="title">
+                                <h3>Login Now</h3>
+                                <p>You can login using your social media account or email address.</p>
+                            </div>
+                            <div class="social-login">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-12"><a class="btn facebook-btn"
+                                            href="javascript:void(0)"><i class="lni lni-facebook-filled"></i> Facebook
+                                            login</a></div>
+                                    <div class="col-lg-4 col-md-4 col-12"><a class="btn twitter-btn"
+                                            href="javascript:void(0)"><i class="lni lni-twitter-original"></i> Twitter
+                                            login</a></div>
+                                    <div class="col-lg-4 col-md-4 col-12"><a class="btn google-btn"
+                                            href="javascript:void(0)"><i class="lni lni-google"></i> Google login</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="alt-option">
+                                <span>Or</span>
+                            </div>
+                            <div class="form-group input-group">
+                                <label for="reg-fn">Email</label>
+                                <input class="form-control" type="email" id="reg-email" required>
+                            </div>
+                            <div class="form-group input-group">
+                                <label for="reg-fn">Password</label>
+                                <input class="form-control" type="password" id="reg-pass" required>
+                            </div>
+                            <div class="d-flex flex-wrap justify-content-between bottom-content">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input width-auto" id="exampleCheck1">
+                                    <label class="form-check-label">Remember me</label>
+                                </div>
+                                <a class="lost-pass" href="account-password-recovery.html">Forgot password?</a>
+                            </div>
+                            <div class="button">
+                                <button class="btn" type="submit">Login</button>
+                            </div>
+                            <p class="outer-link">Don't have an account? <a href="register.html">Register here </a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- End Account Login Area -->
 
     <!-- Start Footer Area -->
@@ -334,7 +426,7 @@
                         <div class="col-lg-3 col-md-4 col-12">
                             <div class="footer-logo">
                                 <a href="index.html">
-                                    <img src="{{asset('assets/images/logo/white-logo.svg')}}" alt="#">
+                                    <img src="assets/images/logo/white-logo.svg" alt="#">
                                 </a>
                             </div>
                         </div>
@@ -443,7 +535,7 @@
                         <div class="col-lg-4 col-12">
                             <div class="payment-gateway">
                                 <span>We Accept:</span>
-                                <img src="{{asset('assets/images/footer/credit-cards-footer.png')}}" alt="#">
+                                <img src="assets/images/footer/credit-cards-footer.png" alt="#">
                             </div>
                         </div>
                         <div class="col-lg-4 col-12">
@@ -477,91 +569,10 @@
     </a>
 
     <!-- ========================= JS here ========================= -->
-    <script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('assets/js/tiny-slider.js')}}"></script>
-    <script src="{{asset('assets/js/glightbox.min.js')}}"></script>
-    <script src="{{asset('assets/js/main.js')}}"></script>
-    <script type="text/javascript">
-        //========= Hero Slider 
-        tns({
-            container: '.hero-slider',
-            slideBy: 'page',
-            autoplay: true,
-            autoplayButtonOutput: false,
-            mouseDrag: true,
-            gutter: 0,
-            items: 1,
-            nav: false,
-            controls: true,
-            controlsText: ['<i class="lni lni-chevron-left"></i>', '<i class="lni lni-chevron-right"></i>'],
-        });
-    
-        //======== Brand Slider
-        tns({
-            container: '.brands-logo-carousel',
-            autoplay: true,
-            autoplayButtonOutput: false,
-            mouseDrag: true,
-            gutter: 15,
-            nav: false,
-            controls: false,
-            responsive: {
-                0: {
-                    items: 1,
-                },
-                540: {
-                    items: 3,
-                },
-                768: {
-                    items: 5,
-                },
-                992: {
-                    items: 6,
-                }
-            }
-        });
-    
-    </script>
-  
-
-
-
-
-    {{-- <script>
-        const finaleDate = new Date("February 15, 2023 00:00:00").getTime();
-   
-        const timer = () => {
-            const now = new Date().getTime();
-            let diff = finaleDate - now;
-            if (diff < 0) {
-                document.querySelector('.alert').style.display = 'block';
-                document.querySelector('.container').style.display = 'none';
-            }
-   
-            let days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            let hours = Math.floor(diff % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
-            let minutes = Math.floor(diff % (1000 * 60 * 60) / (1000 * 60));
-            let seconds = Math.floor(diff % (1000 * 60) / 1000);
-   
-            days <= 99 ? days = `0${days}` : days;
-            days <= 9 ? days = `00${days}` : days;
-            hours <= 9 ? hours = `0${hours}` : hours;
-            minutes <= 9 ? minutes = `0${minutes}` : minutes;
-            seconds <= 9 ? seconds = `0${seconds}` : seconds;
-   
-            document.querySelector('#days').textContent = days;
-            document.querySelector('#hours').textContent = hours;
-            document.querySelector('#minutes').textContent = minutes;
-            document.querySelector('#seconds').textContent = seconds;
-   
-        }
-        timer();
-        setInterval(timer, 1000);
-    </script> --}}
-   
- 
-   @stack('scripts')
-
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/tiny-slider.js"></script>
+    <script src="assets/js/glightbox.min.js"></script>
+    <script src="assets/js/main.js"></script>
 </body>
 
 </html>

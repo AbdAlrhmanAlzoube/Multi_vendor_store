@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +17,7 @@ class CheckUserType
     public function handle(Request $request, Closure $next , ...$types): Response
     {
         $user = $request->user();
-        if (!$user) {
+        if (!$user ) {
             return redirect()->route('login');
         }
         if (!in_array($user->type,$types)) {

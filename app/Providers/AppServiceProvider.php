@@ -16,7 +16,10 @@ use Illuminate\Notifications\DatabaseNotification;
 
 class AppServiceProvider extends ServiceProvider
 {
+
+    public const HOME='/';
     /**
+     * 
      * Register any application services.
      */
     public function register(): void
@@ -44,6 +47,7 @@ class AppServiceProvider extends ServiceProvider
         //     CartCreated::class =>[ listenerName::class,]
            
         //);
+        
 
     }
 }

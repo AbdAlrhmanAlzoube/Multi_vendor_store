@@ -31,7 +31,8 @@ class Order extends Model
     public function products() // بالعلاقات مني تو مني لازم اراعي اسناء الجداول 
     {                                                                            //بعلاثقات المني بس بشوف الفورن كي كيف بدي خليه يشوف باقي الحقول
         return $this->belongsToMany(Product::class,'order_items','order_id','product_id','id','id')
-        ->using(OrderItem::class) //لامو لارفيل عالبا الجدول الكسر ما الو موديل لهيك بقلو هالشي 
+        ->using(OrderItem::class)
+         //لامو لارفيل عالبا الجدول الكسر ما الو موديل لهيك بقلو هالشي 
         ->withPivot(['product_name','price','quantity','options']); //use withPivot chenge extends model pivot //OrderItem
     }
 
