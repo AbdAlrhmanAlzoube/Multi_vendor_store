@@ -11,8 +11,9 @@ use App\Http\Middleware\CheckUserType;
 Route::group([
     //'key'=>'الخاصية'
     'prefix'=>'dashboard',
-    'middleware'=>['auth','auth_type:admin,super-admin'],
-    'as'=>'dashboard.'
+    'middleware'=>['auth:admin'],//admin=>guardadmin     //'auth_type:admin,super-admin'
+    'as'=>'dashboard.',
+    'prefix'=>'admin/dashboard',
 ],
 
 function()

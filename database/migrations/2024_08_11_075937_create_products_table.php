@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->decimal('price', 10, 2)->default(0.00);
             $table->decimal('compare_price', 10, 2)->default(0);
+            $table->unsignedSmallInteger('quantity')->default(0);
             $table->json('option')->nullable();
             $table->float('rating')->default(0);
             $table->float('featured')->default(0);

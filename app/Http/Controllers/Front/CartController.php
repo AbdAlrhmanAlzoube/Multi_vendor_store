@@ -14,61 +14,73 @@ use Illuminate\Support\Collection;
 
 class CartController extends Controller
 {
+
+    protected $cart;
+
+    public function __construct(CartRepository $cart)
+    {
+        $this->cart = $cart;
+    }
     /**
      * Display a listing of the resource.
      */
-    public function index(CartModelRepository $cart)
+    public function index()
     {
         // dd($cart);
-        // $repository = App::make('cart');
-        //   $items = $cart->get();
+        // $repository = App::make('cart'); //service continer
+        //   $items = $cart->get(); return :collection
         // dd($cart);
-        $items = $cart->get();
-
-        // تمرير البيانات إلى الفيو
+        $items = $this->cart->get();
+        $total = $this->cart->total();
         return view('front.cart', [
             'cart' => $items,
+            'total' => $total,
+
         ]);
-          
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request,CartRepository $cart)
+    public function store(Request $request)
     {
         $request->validate([
-            'product_id'=>['required','integer','exists:products,id'],
-            'quantity'=>['nullable','int','min:1'],
+            'product_id' => ['required', 'integer', 'exists:products,id'],
+            'quantity' => ['nullable', 'int', 'min:1'],
+            // 'options'=>['nullable']
         ]);
 
-        $product=Product::findOrFail($request->post('product_id'));
+        $product = Product::findOrFail($request->post('product_id'));
         // $repository=new CartModelRepository();
-        $cart->add($product,$request->post('quantity'));
+        $this->cart->add($product, $request->post('quantity'));
+        return redirect()->route('cart.index')->with('success', 'added to cart!');
     }
 
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,CartRepository $cart)
+    public function update(Request $request,$id)
     {
         $request->validate([
-            'product_id'=>['required','integer','exists:products,id'],
-            'quantity'=>['nullable','int','min:1'],
+            // 'product_id' => ['required', 'integer', 'exists:products,id'],
+            'quantity' => ['required', 'int', 'min:1'],
         ]);
 
-        $product=Product::findorfile($request->post('product_id'));
+        // $product = Product::findOrFail($request->post('product_id'));
         // $repository=new CartModelRepository();
-        $cart->update($product,$request->post('quantity'));
+        $this->cart->update($id, $request->post('quantity'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CartRepository $cart,$id)
+    public function destroy($id)
     {
         // $repository=new CartModelRepository();
-        $cart->delete($id);
-        }
+        $this->cart->delete($id);
+        return [
+            'message'=>'item deleted!', //lindekin return response->json
+        ];
+    }
 }

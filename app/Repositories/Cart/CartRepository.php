@@ -8,15 +8,15 @@ use Illuminate\Support\Collection;
 
 interface CartRepository
 {
-    public function get():Collection;
+    public function get():Collection|array|null;
 
     public function add(Product $product,$quantity);
 
-    public function update(Product $product,$quantity);
+    public function update($id,$quantity);
 
     public function delete($id);
 
     public function empty();
 
-    public function total():float;
+    public function total();
 }

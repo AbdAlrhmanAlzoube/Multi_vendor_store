@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +18,7 @@ class UpdateUserLastActiveAt
     public function handle(Request $request, Closure $next): Response
     {
         $user=$request->user();
-        if($user)
+        if($user instanceof User)
         {
             $user->forceFill([
                 'last_active_at'=>Carbon::now(),

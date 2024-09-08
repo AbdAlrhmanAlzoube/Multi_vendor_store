@@ -1,28 +1,25 @@
-{{-- @props([$cart]) --}}
 <x-front-layout title="Cart">
-
     <!-- Start Breadcrumbs -->
     <x-slot name="breadcrumb">
-    <div class="breadcrumbs">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 col-md-6 col-12">
-                    <div class="breadcrumbs-content">
-                        <h1 class="page-title">Cart</h1>
+        <div class="breadcrumbs">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="breadcrumbs-content">
+                            <h1 class="page-title">Cart</h1>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-12">
-                    <ul class="breadcrumb-nav">
-                        <li><a href="{{ route('home') }}"><i class="lni lni-home"></i> Home</a></li>
-                        <li><a href="{{ route('products.index') }}">Shop</a></li>
-                        <li>Cart</li>
-                    </ul>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <ul class="breadcrumb-nav">
+                            <li><a href="{{ route('home') }}"><i class="lni lni-home"></i> Home</a></li>
+                            <li><a href="{{ route('products.index') }}">Shop</a></li>
+                            <li>Cart</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </x-slot>
-    
     <!-- End Breadcrumbs -->
     
     <!-- Shopping Cart -->
@@ -32,71 +29,63 @@
                 <!-- Cart List Title -->
                 <div class="cart-list-title">
                     <div class="row">
-                        <div class="col-lg-1 col-md-1 col-12">
-    
-                        </div>
-                        <div class="col-lg-4 col-md-3 col-12">
-                            <p>Product Name</p>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-12">
-                            <p>Quantity</p>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-12">
-                            <p>Subtotal</p>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-12">
-                            <p>Discount</p>
-                        </div>
-                        <div class="col-lg-1 col-md-2 col-12">
-                            <p>Remove</p>
-                        </div>
+                        <div class="col-lg-1 col-md-1 col-12"></div>
+                        <div class="col-lg-4 col-md-3 col-12"><p>Product Name</p></div>
+                        <div class="col-lg-2 col-md-2 col-12"><p>Quantity</p></div>
+                        <div class="col-lg-2 col-md-2 col-12"><p>Subtotal</p></div>
+                        <div class="col-lg-2 col-md-2 col-12"><p>Discount</p></div>
+                        <div class="col-lg-1 col-md-2 col-12"><p>Remove</p></div>
                     </div>
                 </div>
                 <!-- End Cart List Title -->
-                {{-- @dd($cart) --}}
-                {{-- @if($cart->get()->isEmpty())
-                <p>Your cart is empty.</p>
-                @else --}}
-                {{-- @dd(items) --}}
-                {{-- @if($cart->isEmpty())
-                <p>Your cart is empty.</p>
-            @else --}}
-            
+
+                @if($cart->isEmpty())
+                    <p>Your cart is empty.</p>
+                @else
                 @foreach ($cart as $item)
-                <div class="cart-single-list">
-                    <div class="row align-items-center">
-                        <div class="col-lg-1 col-md-1 col-12">
-                            <a href="{{ route('products.show', $item->product->slug) }}"><img src="{{ $item->product->image_url }}" alt="#"></a>
-                        </div>
-                        <div class="col-lg-4 col-md-3 col-12">
-                            <h5 class="product-name"><a href="{{ route('products.show', $item->product->slug) }}">{{ $item->product->name }}</a></h5>
-                            <p class="product-des">
-                                <span><em>Type:</em> Mirrorless</span>
-                                <span><em>Color:</em> Black</span>
-                            </p>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-12">
-                            <div class="count-input">
-                                <input class="form-control" value="{{ $item->quantity }}">
+                @if ($item->product)
+                    <div class="cart-single-list" id="{{ $item->id }}">
+                        <div class="row align-items-center">
+                            <div class="col-lg-1 col-md-1 col-12">
+                                <a href="{{ route('products.show', $item->product->slug) }}">
+                                    <img src="{{ $item->product->image_url }}" alt="{{ $item->product->name }}">
+                                </a>
+                            </div>
+                            <div class="col-lg-4 col-md-3 col-12">
+                                <h5 class="product-name">
+                                    <a href="{{ route('products.show', $item->product->slug) }}">{{ $item->product->name }}</a>
+                                </h5>
+                                <p class="product-des">
+                                    <span><em>Type:</em> Mirrorless</span>
+                                    <span><em>Color:</em> Black</span>
+                                </p>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-12">
+                                <div class="count-input">
+                                    <input class="form-control item-quantity" data-id="{{ $item->id }}" value="{{ $item->quantity }}">
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-12">
+                                <p>{{ App\Helpers\Currency::format($item->quantity * $item->product->price) }}</p>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-12">
+                                <p>{{ App\Helpers\Currency::format(0) }}</p>
+                            </div>
+                            <div class="col-lg-1 col-md-2 col-12">
+                                <a class="remove-item" data-id="{{ $item->id }}" href="javascript:void(0)">
+                                    <i class="lni lni-close"></i>
+                                </a>
                             </div>
                         </div>
-                        <div class="col-lg-2 col-md-2 col-12">
-                            <p>{{ Currency::format($item->quantity * $item->product->price) }}</p>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-12">
-                            <p>{{ Currency::format(0) }}</p>
-                        </div>
-                        <div class="col-lg-1 col-md-2 col-12">
-                            <a class="remove-item" href="javascript:void(0)"><i class="lni lni-close"></i></a>
-                        </div>
                     </div>
-                </div>
-                @endforeach
-            {{-- @endif --}}
+                @else
+                    <p>Product not found for item {{ $item->id }}.</p>
+                @endif
+            @endforeach
             
-                <!-- Cart Single List list -->
-              
+                @endif
             </div>
+
             <div class="row">
                 <div class="col-12">
                     <!-- Total Amount -->
@@ -117,13 +106,13 @@
                             <div class="col-lg-4 col-md-6 col-12">
                                 <div class="right">
                                     <ul>
-                                        <li>Cart Subtotal<span>{{ App\Helpers\Currency::format ($cart->total()) }}</span></li>
+                                        <li>Cart Subtotal<span>{{ App\Helpers\Currency::format($total) }}</span></li>
                                         <li>Shipping<span>Free</span></li>
                                         <li>You Save<span>$29.00</span></li>
                                         <li class="last">You Pay<span>$2531.00</span></li>
                                     </ul>
                                     <div class="button">
-                                        <a href="checkout.html" class="btn">Checkout</a>
+                                        <a href="{{ route('checkout') }}" class="btn">Checkout</a>
                                         <a href="product-grids.html" class="btn btn-alt">Continue shopping</a>
                                     </div>
                                 </div>
@@ -136,6 +125,12 @@
         </div>
     </div>
     <!--/ End Shopping Cart -->
-    {{-- @endif --}}
-    </x-front-layout>
-    
+    @push('scripts')
+    <script>
+        const csrf_token= "{{ csrf_token() }}";
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/d3js/7.9.0/d3.min.js"></script>
+    {{-- <script src="{{ asset('build/assets/cart-B59eHFjU.js') }}"></script> --}}
+    @endpush
+    @vite('resources/js/cart.js')
+</x-front-layout>

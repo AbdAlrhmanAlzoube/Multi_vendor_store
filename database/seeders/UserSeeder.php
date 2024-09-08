@@ -20,7 +20,8 @@ class UserSeeder extends Seeder
             'password'=>Hash::make('password'),  //google 
             'email'=>'abd@mail.com',
             'phone_number'=>'0992938066',
-            'type'=> 'super-admin'
+            'type'=> 'super-admin',
+            'store_id'=>'1',
 
 
         ]); 
@@ -31,6 +32,7 @@ class UserSeeder extends Seeder
         'password'=>Hash::make('password'),  //google 
         'email'=>'abdalrhman@mail.com',
         'phone_number'=>'099293806',
+        'store_id'=>'2',
         'type'=> 'admin'
 
 
@@ -40,6 +42,7 @@ class UserSeeder extends Seeder
         'password'=>Hash::make('password'),  //google 
         'email'=>'super-admin@mail.com',
         'phone_number'=>'0992938062',
+        'store_id'=>'3',
         'type'=> 'user'
 
        ]);
