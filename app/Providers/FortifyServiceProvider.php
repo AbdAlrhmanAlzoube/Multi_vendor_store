@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Actions\Fortify\AuthenticateUser;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Laravel\Fortify\Fortify;
@@ -82,6 +83,7 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         if(Config::get('fortify.guard')== 'admin'){
+            Fortify::authenticateUsing([new AuthenticateUser,'authenticate']); //authenticate with username or phone_number or email
         Fortify::viewPrefix('auth.');  }
         else{
             Fortify::viewPrefix('front.auth.');
