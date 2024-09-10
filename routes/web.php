@@ -7,6 +7,7 @@ use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Front\CheckOutController;
 use App\Http\Controllers\Front\HomeController;
 use App\Http\Controllers\Front\ProductController;
+use App\Http\Controllers\Front\Auth\TwoFactorAuthentactionController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
    
@@ -19,6 +20,8 @@ Route::resource('cart', CartController::class);
 Route::get('checkout',[CheckOutController::class,'create'])->name('checkout');
 Route::post('store-order',[CheckOutController::class, 'store'])->name('store-order');
 
+Route::get('auth/user/2fa',[TwoFactorAuthentactionController::class, 'index'])
+->name('front.2fa');
 
 
 Route::post('paypal/webhook',function()

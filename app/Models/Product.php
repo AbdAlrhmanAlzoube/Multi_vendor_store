@@ -25,7 +25,16 @@ class Product extends Model
         'rating',
         'featured',
         'status',
+        'store_id',
         'category_id', // Add other fields if necessary
+    ];
+
+    protected $hidden=[
+        'created_at','updated_at','deleted_at','image'
+    ];
+
+    protected $appends=[    //return response json url alowes
+        'image_url', 
     ];
 
     //GLOBLSCOPE
@@ -33,6 +42,11 @@ class Product extends Model
     protected static function booted() //تتنغد بشكل تلقائي
     {
         static::addGlobalScope('store', new StoreScope());
+
+        static::creating(function(Product $product)
+        {
+            $product->slug=str::slug($product->name);
+        });
     }
 
     public function store()
@@ -53,8 +67,10 @@ class Product extends Model
     public static function rules()
     {
         return [
-            // 'category_id' => 'nullable|exists:categories,id',
+            'category_id' => 'required|sometimes|exists:categories,id',
+            'store_id'=>'sometimes|required|exists:stores,id',
             'name' => [
+                'sometimes',   //use api endpoint update if request input name then requierd else not required
                 'required',
                 'string',
                 'min:3',
@@ -65,12 +81,12 @@ class Product extends Model
             // 'slug' => 'required|string|unique:products,slug',
             'description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:1048576|dimensions:min_width=100,min_height=100',
-            'price' => 'required|numeric|min:0',
-            'compare_price' => 'nullable|numeric|min:0',
+            'price' => 'sometimes|required|numeric|min:0',
+            'compare_price' => 'nullable|numeric|gt:price',
             'option' => 'nullable|json',
             'rating' => 'nullable|numeric|min:0|max:5',
             'featured' => 'nullable|boolean',
-            'status' => 'required|in:active,draft,archived',
+            'status' => 'in:active,draft,archived',
         ];
     }
 
@@ -96,6 +112,41 @@ class Product extends Model
         if (!$this->compare_price) {
             return 0;
         }
-        return  round(100 - (100 * $this->price / $this->compare_price),1); //method number_format
+        return  round(100 - (100 * $this->price / $this->compare_price), 1); //method number_format
+    }
+
+    public function scopeFilter(Builder $builder, $filters)
+    {
+        $option = array_merge([            //merge value[]=>value[]key==key in 2 array
+            'store_id' => null,
+            'category_id' => null,
+            'tag_id' => null,
+            'status' => 'active',
+        ], $filters);
+
+        $builder->when($option['store_id'], function ($builder, $value) {
+            $builder->where('store_id', $value);
+        });
+        $builder->when($option['category_id'], function ($builder, $value) {
+            $builder->where('category_id', $value);
+        });
+        
+        $builder->when($option['tag_id'], function ($builder, $value) {
+            
+            $builder->whereExists(function ($query) use ($value) {
+                $query->select(1)
+                ->from('product_tag')
+                ->whereRaw('product_id = porduct.id')
+                ->where('tag_id', $value);
+            });
+        });
+            // $builder->whereRaw('id IN(SELECT product_id FORM product_tag WHERE tag_id = ?)'[$value]);
+            // $builder->whereRaw('EXISTS (SELECT 1 FORM product_tag WHERE tag_id = ? AND product_id = productss.id)'[$value]);
+          //  $builder->whereHas('tags', function ($builder) use ($value)    //has =>return all product with releshion tags //donthave 
+            //{
+               // $builder->where('id', $value); //two join
+           // });
+       
     }
 }
+ 
