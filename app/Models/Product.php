@@ -109,11 +109,12 @@ class Product extends Model
 
     public function getSalePercentAttribute()
     {
-        if (!$this->compare_price) {
-            return 0;
+        if (!$this->compare_price || $this->compare_price == 0) {
+            return 0; // Avoid division by zero by returning 0
         }
-        return  round(100 - (100 * $this->price / $this->compare_price), 1); //method number_format
+        return round(100 - (100 * $this->price / $this->compare_price), 1); 
     }
+    
 
     public function scopeFilter(Builder $builder, $filters)
     {

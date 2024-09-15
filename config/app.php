@@ -82,12 +82,13 @@ return [
     |
     */
 
-    'locale' => env('APP_LOCALE', 'en'),
 
-    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
+    'locale' => 'en',
+ 
+    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'), //use file .php only //json not working
 
     'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
-
+'supported_locales' => ['en', 'ar'],
     /*
     |--------------------------------------------------------------------------
     | Encryption Key
@@ -102,6 +103,7 @@ return [
     'cipher' => 'AES-256-CBC',
 
     'key' => env('APP_KEY'),
+    'api_token'=>env('API_TOKEN'),
 
     'previous_keys' => [
         ...array_filter(

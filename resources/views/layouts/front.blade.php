@@ -51,27 +51,33 @@
                             <ul class="menu-top-link">
                                 <li>
                                     <div class="select-position">
-                                        <select id="select4">
-                                            <option value="0" selected>$ USD</option>
-                                            <option value="1">€ EURO</option>
-                                            <option value="2">$ CAD</option>
-                                            <option value="3">₹ INR</option>
-                                            <option value="4">¥ CNY</option>
-                                            <option value="5">৳ BDT</option>
+                                        <form action="{{ route('currency.store') }}" method="post">
+                                            @csrf
+                                        <select name="currency_code" onchange="this.form.submit()">
+                                            <option value="USD" @selected('USD'==Session('curency_code'))>$ USD</option>
+                                            <option value="EUR" @selected('EUR'==Session('curency_code'))>€ EURO</option>
+                                            <option value="ILS" @selected('ILS'==Session('curency_code'))>$ ILS</option>
+                                            <option value="JOO" @selected('JOO'==Session('curency_code'))>₹ JOO</option>
+                                            <option value="SAR" @selected('SAR'==Session('curency_code'))>¥ SAR</option>
+                                            <option value="QAR" @selected('QAR '==Session('curency_code'))>৳ QAR</option>
                                         </select>
+                                        </form>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="select-position">
-                                        <select id="select5">
-                                            <option value="0" selected>English</option>
-                                            <option value="1">Español</option>
-                                            <option value="2">Filipino</option>
-                                            <option value="3">Français</option>
-                                            <option value="4">العربية</option>
-                                            <option value="5">हिन्दी</option>
-                                            <option value="6">বাংলা</option>
-                                        </select>
+                                        <form action="{{ URL::current() }}" method="get">
+                                            <select name="locale" onchange="this.form.submit()">
+                                                <option value="en" @selected('en' == session('locale'))>English</option>
+                                                {{-- <option value="1" @selected('1' == session('locale'))>Español</option> --}}
+                                                {{-- <option value="2" @selected('2' == session('locale'))>Filipino</option> --}}
+                                                {{-- <option value="3" @selected('3' == session('locale'))>Français</option> --}}
+                                                <option value="ar" @selected('ar' == session('locale'))>العربية</option>
+                                                {{-- <option value="5" @selected('5' == session('locale'))>हिन्दी</option> --}}
+                                                {{-- <option value="6" @selected('6' == session('locale'))>বাংলা</option> --}}
+                                            </select>
+                                        </form>
+                                        
                                     </div>
                                 </li>
                             </ul>
@@ -80,9 +86,9 @@
                     <div class="col-lg-4 col-md-4 col-12">
                         <div class="top-middle">
                             <ul class="useful-links">
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="about-us.html">About Us</a></li>
-                                <li><a href="contact.html">Contact Us</a></li>
+                                <li><a href="index.html">{{ trans('Home') }}</a></li>
+                                <li><a href="about-us.html">@lang('About Us')</a></li>
+                                <li><a href="contact.html">{{ __('Contact Us') }}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -108,14 +114,14 @@
                              @else
                              <div class="user">
                                 <i class="lni lni-user"></i>
-                                Hello
+                               {{__('Hello') }}
                             </div>
                             <ul class="user-login">
                                 <li>
-                                    <a href="{{ route('login') }}">Sign In</a>
+                                    <a href="{{ route('login') }}">{{ __('Sign In') }}</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('register') }}">Register</a>
+                                    <a href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             </ul>
 
