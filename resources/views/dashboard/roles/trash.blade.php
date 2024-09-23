@@ -1,17 +1,14 @@
 @extends('layuots.dashboard')
  
-@section('title','Categories')
+@section('title','Trashed Categories')
 @section('breadcrumb')
 @parent
 <li class="breadcrumb-item active">Categories</li>
+<li class="breadcrumb-item active">Trash</li>
 @endsection
 @section('content')
 <div class="mb-5">
-    @if(Auth::user()->can('categories.create'))
-    <a href="{{ route('dashboard.categories.create') }}" class="btn btn-sm btn-outline-primary mr-2">Create</a>
-        
-    @endif
-    <a href="{{ route('dashboard.categories.trash') }}" class="btn btn-sm btn-outline-dark">Trash</a>
+    <a href="{{ route('dashboard.categories.index') }}" class="btn btn-sm btn-outline-primary">Back</a>
 </div>
 <x-alert type="success" /> 
 <x-alert type="info" /> 
@@ -33,10 +30,8 @@
             <th>Image</th>
             <th>ID</th>
             <th>Name</th>
-            <th>Parent</th>
-            <th>All Product</th>
             <th>Status</th>
-            <th>Created_at</th>
+            <th>deleted_at</th>
             <th colspan="2">Action</th>
         </tr>
     </thead>
@@ -46,25 +41,22 @@
         <tr>
             <td><img src="{{asset('storage/'.$category->image)}}" alt="" height="50"></td>
             <td>{{ $category->id }}</td>
-            <td><a href="{{ route('dashboard.categories.show',$category->id) }}">{{ $category->name}}</a></td>
-            <td>{{ $category->parent->name }}</td>
-            <td>{{ $category->products_count}}</td>
+            <td>{{ $category->name}}</td>
             <td>{{ $category->status }}</td>
-            <td>{{ $category->created_at }}</td>
+            <td>{{ $category->deleted_at }}</td>
             <td>
-                @can('categories.update')
-            <a href={{ route('dashboard.categories.edit' ,$category->id) }} class=" btn btn-sm btn-outline-success">Edit</a> 
+                <form action={{ route('dashboard.categories.restore' ,$category->id) }}  method="post">
+                    @csrf
+                    @method('put')
+                    <button type="submit" class="btn btn-sm btn-outline-info">Restore</button>
+                  
                     
-                @endcan
-            </td>
+                </form>            </td>
             <td>
-                @can('categories.delete')
-                <form action={{ route('dashboard.categories.destroy' ,$category->id) }}  method="post">
+                <form action={{ route('dashboard.categories.force-delete' ,$category->id) }}  method="post">
                     @csrf
                     @method('delete')
                     <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                  
-                @endcan
                   
                     
                 </form>
@@ -81,6 +73,5 @@
 
 </table>
 {{ $categories->WithQueryString()->links() }}
-
 
 @endsection

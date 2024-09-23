@@ -9,14 +9,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ProductRequest;
 use App\Models\Tag;
-
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class ProductController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $this->authorize('view-any',Product::class);
 
         $products = Product::with(['category', 'store'])->paginate();
 
@@ -30,7 +32,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('create',Product::class);
     }
 
     /**
@@ -38,7 +40,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->authorize('create',Product::class);
+
     }
 
     /**
@@ -46,7 +49,9 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $product=Product::findorFail($id);
+        $this->authorize('view',$product); //laravel auto 
+
     }
 
     /**
@@ -107,7 +112,8 @@ class ProductController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
-    {
-        //
+    { 
+        $product=Product::findorFail($id);
+        $this->authorize('delete',$product);
     }
 }

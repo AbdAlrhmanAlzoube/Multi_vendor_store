@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use Exception;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
@@ -26,6 +27,43 @@ class CategoriesController extends Controller
 
     public function index(Request $request)
     {
+       
+
+        $categories = Category::all();  
+
+$categoryCount = 0;
+$productCount = 0;
+$reviewCount = 0;
+
+// نقوم بتكرار الفئات 10 مرات
+for ($i = 0; $i < 10; $i++) {
+    $categoryCount++;
+    echo "Category {$categoryCount}: \n";
+
+    // نقوم بتكرار المنتجات 5 مرات لكل فئة
+    for ($j = 0; $j < 5; $j++) {
+        $productCount++;
+        echo "  Product {$productCount}: \n";
+
+        // نقوم بتكرار المراجعات 3 مرات لكل منتج
+        for ($k = 0; $k < 3; $k++) {
+            $reviewCount++;
+            echo "    Review {$reviewCount}: \n";
+        }
+    }
+}
+$totalCount = $categoryCount + $productCount + $reviewCount;
+
+echo "Total Categories: {$categoryCount}\n";
+echo "Total Products: {$productCount}\n";
+echo "Total Reviews: {$reviewCount}\n";
+dd($totalCount);
+
+        if(!Gate::denies('categories.view'))
+        {
+            return abort(403);
+        }
+
         $categories = Category::with('parent')
             ->withCount([
                 'products' => function ($query) {
@@ -63,6 +101,7 @@ class CategoriesController extends Controller
      */
     public function create()
     {
+        Gate::authorize('categories.create');
         $parents = Category::all(); //
         $category = new Category(); //مشان مرق اوبجكت فاضي للصفحة ال create 
         return view('dashboard.categories.create', compact('parents', 'category'));
@@ -90,6 +129,7 @@ class CategoriesController extends Controller
      */
     public function show(Category $category)
     {
+        Gate::allows('category.view');
         return view('dashboard.categories.show', compact('category'));
     }
 
@@ -149,6 +189,7 @@ class CategoriesController extends Controller
      */
     public function destroy(string $id)
     {
+        Gate::authorize('categories.delete');
         $category = Category::find($id);
 
         if (!empty($category->image) && Storage::disk('public')->exists($category->image)) {
