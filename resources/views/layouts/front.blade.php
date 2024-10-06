@@ -328,6 +328,8 @@
 
     <!-- Start Account Login Area -->
    {{ $slot }}
+
+   {{-- @yield('payment') --}}
     <!-- End Account Login Area -->
 
     <!-- Start Footer Area -->

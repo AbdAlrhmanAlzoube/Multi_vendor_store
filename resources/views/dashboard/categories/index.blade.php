@@ -58,13 +58,13 @@
                 @endcan
             </td>
             <td>
-                @can('categories.delete')
+                {{-- @can('categories.delete') --}}
                 <form action={{ route('dashboard.categories.destroy' ,$category->id) }}  method="post">
                     @csrf
                     @method('delete')
                     <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                   
-                @endcan
+                {{-- @endcan --}}
                   
                     
                 </form>

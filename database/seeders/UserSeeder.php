@@ -37,13 +37,13 @@ class UserSeeder extends Seeder
 
 
        ]);
-       DB::table('users')->insert([
+       DB::table('admins')->insert([
         'name'=>'super',
         'password'=>Hash::make('password'),  //google 
-        'email'=>'super-admin@mail.com',
+        'email'=>'super-admin@mail.com', //super_admin
         'phone_number'=>'0992938062',
-        'store_id'=>'3',
-        'type'=> 'user'
+        // 'store_id'=>'3',
+        'type'=> 'super_admin'
 
        ]);
 

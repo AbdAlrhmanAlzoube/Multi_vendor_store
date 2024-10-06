@@ -28,12 +28,18 @@ class Order extends Model
         return $this->belongsTo(User::class)->withDefault(['name'=>'Guset Customer']);//BECOSE nullable
     }
 
+
     public function products() // بالعلاقات مني تو مني لازم اراعي اسناء الجداول 
     {                                                                            //بعلاثقات المني بس بشوف الفورن كي كيف بدي خليه يشوف باقي الحقول
         return $this->belongsToMany(Product::class,'order_items','order_id','product_id','id','id')
         ->using(OrderItem::class)
          //لامو لارفيل عالبا الجدول الكسر ما الو موديل لهيك بقلو هالشي 
         ->withPivot(['product_name','price','quantity','options']); //use withPivot chenge extends model pivot //OrderItem
+    }
+    
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class, 'order_id');
     }
 
     public function addresses()

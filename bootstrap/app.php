@@ -1,13 +1,17 @@
 <?php
 
+use App\Exceptions\order;
 use App\Http\Middleware\CheckApiToken;
 use App\Http\Middleware\CheckUserType;
 use App\Http\Middleware\MarkNotificationAsRead;
 use App\Http\Middleware\SetAppLocale;
 use Illuminate\Foundation\Application;
 use App\Http\Middleware\UpdateUserLastActiveAt;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -23,11 +27,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'auth:sanctum' => \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'auth_type' => \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'auth_type' => CheckUserType::class,
-            'localize'                => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
-            'localizationRedirect'    => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
-            'localeSessionRedirect'   => \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
-            'localeCookieRedirect'    => \Mcamara\LaravelLocalization\Middleware\LocaleCookieRedirect::class,
-            'localeViewPath'          => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class,
+            // 'localize'                => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
+            // 'localizationRedirect'    => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
+            // 'localeSessionRedirect'   => \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
+            // 'localeCookieRedirect'    => \Mcamara\LaravelLocalization\Middleware\LocaleCookieRedirect::class,
+            // 'localeViewPath'          => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class,
             // 'setlocale'=> SetAppLocale::class,
             
             
@@ -37,6 +41,7 @@ return Application::configure(basePath: dirname(__DIR__))
             MarkNotificationAsRead::class,
             // SetAppLocale::class,
         ],);
+        $middleware->validateCsrfTokens(['stripe/webhook'],);
         
         $middleware->appendToGroup('api', [
             CheckApiToken::class,
@@ -49,5 +54,27 @@ return Application::configure(basePath: dirname(__DIR__))
         
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        // $exceptions->report(function (QueryException $e,Request $request) {
+        //     if ($e->getCode() == 23000) {
+        //     Log::channel('sql')->warning('');
+        //         $message = 'Foreign key constraint failed';
+        //     } else {
+        //         $message = $e->getMessage();
+        //     }
+
+        //     if ($request->expectsJson()) {
+        //         return response()->json([
+        //             'message' => $message,
+        //         ], 400);
+        //     }
+
+        //     return redirect()
+        //         ->back()
+        //         ->withInput()->withErrors([
+        //             'message' => $e->getMessage(),
+        //         ])
+        //         ->with('info', $message);
+        //         });
+        
+        
     })->create();

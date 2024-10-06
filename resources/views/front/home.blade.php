@@ -6,6 +6,7 @@
                     <div class="slider-head">
                         <!-- Start Hero Slider -->
                         <div class="hero-slider">
+                            <x-alert type="info" />
                             <!-- Start Single Slider -->
                             <div class="single-slider"
                                 style="background-image: url(https://via.placeholder.com/800x500);">

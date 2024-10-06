@@ -18,7 +18,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $this->authorize('view-any',Product::class);
+        // $this->authorize('view-any',Product::class);
 
         $products = Product::with(['category', 'store'])->paginate();
 
@@ -49,8 +49,10 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $product=Product::findorFail($id);
-        $this->authorize('view',$product); //laravel auto 
+        // dd('abd');
+        // return to_route('products.destroy');
+        // $product=Product::findorFail($id);
+        // $this->authorize('view',$product); //laravel auto 
 
     }
 
@@ -111,9 +113,10 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Product $product)
     { 
-        $product=Product::findorFail($id);
-        $this->authorize('delete',$product);
+        // $product=Product::findorFail($id);
+        $product->delete();
+        // $this->authorize('delete',$product);
     }
 }

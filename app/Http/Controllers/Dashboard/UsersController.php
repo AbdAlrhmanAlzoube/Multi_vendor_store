@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -17,7 +18,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        // Gate::authorize('users.view');
+       // Gate::authorize('users.view');
         
         $users = User::paginate();
         return view('dashboard.users.index', compact('users'));

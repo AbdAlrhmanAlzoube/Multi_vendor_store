@@ -8,6 +8,7 @@ use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ProfileController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\CategoriesController;
+use App\Http\Controllers\Dashboard\ImportProductsController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\UsersController;
 use App\Http\Controllers\Front\ProductController as FrontProductController;
@@ -33,6 +34,12 @@ function()
     Route::put('/categories/{category}/restore',[CategoriesController::class, 'restore'])->name('categories.restore');
     Route::delete('/categories/{category}/force-delete',[CategoriesController::class, 'forceDelete'])->name('categories.force-delete');
     
+
+    Route::get('products/import', [ImportProductsController::class, 'create'])
+        ->name('products.import');
+    Route::post('products/import', [ImportProductsController::class, 'store']);
+
+
     Route::resource('/categories',CategoriesController::class);
     Route::resource('/products',ProductController::class);
     // Route::resources([
